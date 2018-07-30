@@ -8,7 +8,7 @@ import friends from "./friends.json";
 import "./App.css";
 
 class App extends Component {
-  // Setting this.state.friends to the friends json array
+
   state = {
     friends,
     currentScore: 0,
@@ -16,43 +16,28 @@ class App extends Component {
     chosenFriends: []
   };
 
+  //To Do:
+  //1. Get rid of x button and turn card into on click event 
 
-  //Move Counters to a separate Component at some point
-
-  // handleIncrement increases this.state.count by 1
-  handleIncrement = () => {
-    // We always use the setState method to update a component's state
-    this.setState({ count: this.state.count + 1 });
-  };
-
-
-  //1. Grab the id from clicked card, 
-  //2. check if it's already in the state array, 
-  //3. increment currentScore and add id to chosenFriends array,
-  //4. else increment highScore and clear chosenFriends array
+  //Helper function to determine what the new high score should be.
   newHighScore = (val) => (
     this.state.highScore > val ? this.state.highScore : val
   )
 
-
   tallyFriend = id => {
-    // Filter this.state.friends for friends with an id not equal to the id being removed
 
-    console.log(`CurrentStoredID's: ${this.state.chosenFriends}`);
-
-    //Check if clicked ID is in state array:
+    //Check if clicked ID is in state array- if it is, end the current game, and add score to high score if it's > high score
     if (this.state.chosenFriends.includes(id)) {
-      alert('You Clicked that one already!');
+      //Incorrect Answer was Chosen
+      alert('Game over!  You Clicked that one already!');
       this.setState(
         {
           highScore: this.newHighScore(this.state.currentScore),
+          chosenFriends:[],
           currentScore: 0,
         })
-
     } else {
-      alert('Nice!');
-
-      //Correct Answer was Chosen
+      //Correct Answer was Chosen- Concat selected ID to state id array to keep track of id's and increment the current score
       this.setState(prevState => ({
         chosenFriends: [...prevState.chosenFriends, id],
         currentScore: this.state.currentScore + 1
@@ -75,7 +60,7 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <Title>Friends List</Title>
+        <Title>Memory Game Thing</Title>
         <Counter
           currentScore={this.state.currentScore}
           highScore={this.state.highScore}
