@@ -12,8 +12,11 @@ class App extends Component {
     friends,
     currentScore: 0,
     highScore: 0,
-    chosenFriends:[]
+    chosenFriends: []
   };
+
+
+  //Move Counters to a separate Component at some point
 
   // handleIncrement increases this.state.count by 1
   handleIncrement = () => {
@@ -26,19 +29,40 @@ class App extends Component {
   //2. check if it's already in the state array, 
   //3. increment currentScore and add id to chosenFriends array,
   //4. else increment highScore and clear chosenFriends array
-  
+  newHighScore = (val) => (
+    this.state.highScore>val ? this.state.highScore : val
+  )
+
+
   tallyFriend = id => {
     // Filter this.state.friends for friends with an id not equal to the id being removed
 
-    this.setState(prevState => ({
-       chosenFriends: [...prevState.chosenFriends, id] 
-    }));
+    console.log(`CurrentStoredID's: ${this.state.chosenFriends}`);
 
-    const friends = this.state.friends.filter(friend => friend.id !== id);
+    //Check if clicked ID is in state array:
+    if (this.state.chosenFriends.includes(id)) {
+      alert('You Clicked that one already!');
+      this.setState(
+        {
+          highScore:this.newHighScore(this.state.currentScore),
+          currentScore:0,
+        })
+    
+    }  else {
+      alert('Nice!');
+
+      //Correct Answer was Chosen
+      this.setState(prevState => ({
+        chosenFriends: [...prevState.chosenFriends, id],
+        currentScore:this.state.currentScore+1
+      }));
+    }
+
 
     // Set this.state.friends equal to the new friends array
-    this.randomizeArray(friends);
+    this.randomizeArray(this.state.friends);
   };
+
 
   randomizeArray = inputArr => {
     const friends = Randomizer.randomizeArray(inputArr);
