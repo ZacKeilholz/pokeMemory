@@ -3,6 +3,7 @@ import Randomizer from 'react-randomizer';
 import FriendCard from "./components/FriendCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
+import Counter from "./components/Counter/";
 import friends from "./friends.json";
 import "./App.css";
 
@@ -30,7 +31,7 @@ class App extends Component {
   //3. increment currentScore and add id to chosenFriends array,
   //4. else increment highScore and clear chosenFriends array
   newHighScore = (val) => (
-    this.state.highScore>val ? this.state.highScore : val
+    this.state.highScore > val ? this.state.highScore : val
   )
 
 
@@ -44,17 +45,17 @@ class App extends Component {
       alert('You Clicked that one already!');
       this.setState(
         {
-          highScore:this.newHighScore(this.state.currentScore),
-          currentScore:0,
+          highScore: this.newHighScore(this.state.currentScore),
+          currentScore: 0,
         })
-    
-    }  else {
+
+    } else {
       alert('Nice!');
 
       //Correct Answer was Chosen
       this.setState(prevState => ({
         chosenFriends: [...prevState.chosenFriends, id],
-        currentScore:this.state.currentScore+1
+        currentScore: this.state.currentScore + 1
       }));
     }
 
@@ -75,10 +76,10 @@ class App extends Component {
     return (
       <Wrapper>
         <Title>Friends List</Title>
-        <h2>Current Number Correct: {this.state.currentScore}</h2>
-        <h2>High Score: {this.state.highScore}</h2>
-        <h2>Chosen Id's: {this.state.chosenFriends}</h2>
-
+        <Counter
+          currentScore={this.state.currentScore}
+          highScore={this.state.highScore}
+        />
         {this.state.friends.map(friend => (
           <FriendCard
             tallyFriend={this.tallyFriend}
